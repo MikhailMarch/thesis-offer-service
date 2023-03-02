@@ -1,5 +1,11 @@
 type Offer {
-    id: Long
+    id: Int
 
+    title: String
 
+    products: [Product!]!
+}
+
+type Product @extends @key(fields: "id") {
+    id: Int @external
 }

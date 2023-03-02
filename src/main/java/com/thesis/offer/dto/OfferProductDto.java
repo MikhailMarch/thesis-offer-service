@@ -17,5 +17,7 @@ public class OfferProductDto {
 
     private Integer ordering;
 
-    private Long offerId;
+    private Integer sellPrice;
+
+    private Double rating;
 }

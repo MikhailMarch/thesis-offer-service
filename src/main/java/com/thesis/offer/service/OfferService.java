@@ -3,7 +3,9 @@ package com.thesis.offer.service;
 import com.thesis.offer.dto.OfferDto;
 import org.springframework.lang.Nullable;
 
+import java.util.List;
+
 public interface OfferService {
 
-    OfferDto getOffer(@Nullable String user);
+    List<OfferDto> getOffers(@Nullable String user);
 }

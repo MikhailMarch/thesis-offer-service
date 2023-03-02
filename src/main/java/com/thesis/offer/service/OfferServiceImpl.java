@@ -5,11 +5,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class OfferServiceImpl implements OfferService {
 
-    public OfferDto getOffer(@Nullable String user) {
+    public List<OfferDto> getOffers(@Nullable String user) {
         // not implemented
         return null;
     }

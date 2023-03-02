@@ -1,3 +1,3 @@
 type Query {
-    getOffer(String user): Offer
+    getOffers(String user): [Offer!]!
 }

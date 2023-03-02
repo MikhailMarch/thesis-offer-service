@@ -16,5 +16,5 @@ public class OfferProduct {
     private Integer ordering;
 
     @ManyToOne
-    private Offer offerId;
+    private Offer offer;
 }

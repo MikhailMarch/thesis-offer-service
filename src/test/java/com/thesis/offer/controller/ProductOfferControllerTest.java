@@ -5,7 +5,7 @@ import com.thesis.offer.dto.OfferProductDto;
 import com.thesis.offer.model.Offer;
 import com.thesis.offer.model.OfferProduct;
 import com.thesis.offer.repository.OfferRepository;
-import com.thesis.offer.service.OfferServiceImpl;
+import com.thesis.offer.service.offer.OfferServiceImpl;
 import com.thesis.offer.service.feign.ProductClient;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.BeforeEach;

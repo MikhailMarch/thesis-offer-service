@@ -1,4 +1,4 @@
-package com.thesis.offer.service;
+package com.thesis.offer.service.offer;
 
 import com.thesis.offer.dto.OfferDto;
 import com.thesis.offer.dto.OfferProductDto;
@@ -6,6 +6,7 @@ import com.thesis.offer.model.Offer;
 import com.thesis.offer.model.OfferProduct;
 import com.thesis.offer.repository.OfferRepository;
 import com.thesis.offer.service.feign.ProductClient;
+import com.thesis.offer.service.offer.OfferService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;

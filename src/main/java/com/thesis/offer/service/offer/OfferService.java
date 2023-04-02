@@ -1,4 +1,4 @@
-package com.thesis.offer.service;
+package com.thesis.offer.service.offer;
 
 import com.thesis.offer.dto.OfferDto;
 

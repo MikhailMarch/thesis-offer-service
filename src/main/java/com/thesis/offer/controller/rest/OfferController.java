@@ -1,7 +1,7 @@
 package com.thesis.offer.controller.rest;
 
 import com.thesis.offer.dto.OfferDto;
-import com.thesis.offer.service.OfferService;
+import com.thesis.offer.service.offer.OfferService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

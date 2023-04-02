@@ -19,6 +19,6 @@ public class OfferResolver {
     @DgsQuery
     public List<OfferDto> getOffers(@InputArgument String user,
                                     DgsDataFetchingEnvironment env) {
-        return offerService.getOffers(user);
+        return offerService.getOffers(1, 2);
     }
 }

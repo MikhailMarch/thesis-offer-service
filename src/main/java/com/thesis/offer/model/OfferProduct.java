@@ -1,14 +1,18 @@
 package com.thesis.offer.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import lombok.Data;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Data
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(of = {"id"})
 public class OfferProduct {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long productId;
@@ -16,5 +20,6 @@ public class OfferProduct {
     private Integer ordering;
 
     @ManyToOne
+    @ToString.Exclude
     private Offer offer;
 }

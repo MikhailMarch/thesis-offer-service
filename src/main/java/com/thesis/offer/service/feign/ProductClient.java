@@ -1,7 +1,7 @@
 package com.thesis.offer.service.feign;
 
 import com.thesis.offer.dto.OfferProductDto;
-import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;

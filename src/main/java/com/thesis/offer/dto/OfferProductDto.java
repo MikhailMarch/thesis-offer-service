@@ -13,8 +13,6 @@ public class OfferProductDto {
 
     private Long id;
 
-    private Long productId;
-
     private Integer ordering;
 
     private Integer sellPrice;

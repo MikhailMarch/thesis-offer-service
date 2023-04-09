@@ -15,7 +15,7 @@ import java.util.concurrent.CompletableFuture;
 @RequiredArgsConstructor
 public class OfferFeildResolver {
 
-    @DgsData(parentType = "Feedback")
+    @DgsData(parentType = "Offer")
     public CompletableFuture<List<Product>> products(DgsDataFetchingEnvironment environment) {
         Offer offer = environment.getSource();
         return environment.<Long, List<Product>>getDataLoader(OfferProductLoader.class)

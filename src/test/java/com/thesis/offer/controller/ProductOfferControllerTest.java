@@ -4,24 +4,32 @@ import com.thesis.offer.OfferServiceApplicationTests;
 import com.thesis.offer.dto.OfferProductDto;
 import com.thesis.offer.model.Offer;
 import com.thesis.offer.model.OfferProduct;
-import com.thesis.offer.repository.OfferRepository;
-import com.thesis.offer.service.offer.OfferServiceImpl;
 import com.thesis.offer.service.feign.ProductClient;
+import com.thesis.offer.service.offer.OfferServiceImpl;
 import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.transaction.TestTransaction;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import javax.persistence.EntityManager;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.stream.Collectors;
 
-import static org.mockito.ArgumentMatchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.mockito.ArgumentMatchers.anyList;
 
+@Transactional
 public class ProductOfferControllerTest extends OfferServiceApplicationTests {
 
-    @MockBean
-    OfferRepository offerRepository;
+    @Autowired
+    EntityManager entityManager;
 
     @MockBean
     ProductClient productClient;
@@ -29,51 +37,90 @@ public class ProductOfferControllerTest extends OfferServiceApplicationTests {
     @Autowired
     OfferServiceImpl offerService;
 
+    Random random = new Random();
+
+    Offer offer;
+
     @BeforeEach
     void setUp() {
-        Mockito.when(offerRepository.findAllOrderByOrder(any())).thenReturn(
-                List.of(Offer.builder()
-                                .id(1L)
-                                .title("some")
-                                .products(List.of(
-                                        OfferProduct.builder()
-                                                .id(1L)
-                                                .productId(1L)
-                                                .build(),
-                                        OfferProduct.builder()
-                                                .id(2L)
-                                                .productId(2L)
-                                                .build(),
-                                        OfferProduct.builder()
-                                                .id(3L)
-                                                .productId(3L)
-                                                .build()
-                                ))
+        txStart();
+
+        var offer = getOffer();
+        entityManager.persist(offer);
+
+        var products = new ArrayList<OfferProduct>();
+        for (int i = 0; i < 3; i++) {
+            var product = getOfferProduct(offer);
+            entityManager.persist(product);
+            products.add(product);
+        }
+
+        offer.setProducts(products);
+        entityManager.persist(offer);
+
+        this.offer = offer;
+
+        txCommit();
+
+        Mockito.when(productClient.getProducts(anyList())).thenReturn(
+                products.stream().map(product -> OfferProductDto.builder()
+                        .id(product.getProductId())
+                        .rating(2.3)
+                        .sellPrice(1)
                         .build())
-        );
-        Mockito.when(productClient.getProducts(anyList())).thenReturn(List.of(
-                OfferProductDto.builder()
-                        .id(1L)
-                        .rating(2.3)
-                        .sellPrice(1)
-                        .build(),
-                OfferProductDto.builder()
-                        .id(2L)
-                        .rating(2.3)
-                        .sellPrice(1)
-                        .build(),
-                OfferProductDto.builder()
-                        .id(3L)
-                        .rating(2.3)
-                        .sellPrice(1)
-                        .build()
-        ));
+                        .collect(Collectors.toList()));
+    }
+
+    @AfterEach
+    void cleanUp() {
+//        txStart();
+//
+//
+//        this.offer.getProducts()
+//                .forEach(p -> entityManager.remove(p));
+//        entityManager.remove(offer);
+//
+//        txCommit();
     }
 
     @Test
     void testOfferController() {
+        txStart();
         var offers = offerService.getOffers(0, 10);
 
-        MatcherAssert.assertThat(offers, isNotNull());
+        MatcherAssert.assertThat(offers, notNullValue());
+
+        var extractedOffer = offers.get(0);
+
+        MatcherAssert.assertThat(offer.getTitle(), is(extractedOffer.getTitle()));
+        MatcherAssert.assertThat(offer.getProducts().size(), is(extractedOffer.getProductDtoList().size()));
+    }
+
+    Offer getOffer() {
+        return Offer.builder()
+                .title("some")
+                .ordering(random.nextInt())
+                .build();
+    }
+
+    OfferProduct getOfferProduct(Offer offer) {
+        return OfferProduct.builder()
+                .productId(random.nextLong())
+                .offer(offer)
+                .ordering(random.nextInt())
+                .build();
+    }
+
+    protected static void txStart() {
+        if (!TestTransaction.isActive()) {
+            TestTransaction.start();
+        }
+    }
+
+    protected static void txCommit() {
+        if (TestTransaction.isActive()) {
+            TestTransaction.flagForCommit();
+            TestTransaction.end();
+        }
     }
 }

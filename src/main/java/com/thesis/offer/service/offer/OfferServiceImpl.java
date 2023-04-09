@@ -6,9 +6,9 @@ import com.thesis.offer.model.Offer;
 import com.thesis.offer.model.OfferProduct;
 import com.thesis.offer.repository.OfferRepository;
 import com.thesis.offer.service.feign.ProductClient;
-import com.thesis.offer.service.offer.OfferService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public class OfferServiceImpl implements OfferService {
     public List<OfferDto> getOffers(Integer page,
                                     Integer size) {
 
-        var offers = offerRepository.findAllOrderByOrder(PageRequest.of(page, size));
+        var offers = offerRepository.findAll(PageRequest.of(page, size, Sort.by("ordering")));
 
         var products = offers.stream()
                 .map(Offer::getProducts)

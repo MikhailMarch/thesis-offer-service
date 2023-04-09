@@ -3,7 +3,8 @@ type Offer {
 
     title: String
 
-    products: [Product!]!
+    products(page: Int! = 0,
+             size: Int! = 10): [Product!]!
 }
 
 type Product @extends @key(fields: "id") {

@@ -8,4 +8,8 @@ public interface GqlOfferService {
 
     List<Offer> getOffers(Integer page,
                           Integer size);
+
+    Offer getOffer(Long offerId,
+                         Integer page,
+                         Integer size);
 }

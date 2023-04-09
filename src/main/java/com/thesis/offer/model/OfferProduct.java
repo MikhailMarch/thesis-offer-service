@@ -1,6 +1,6 @@
 package com.thesis.offer.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 
 @Data
@@ -15,11 +15,13 @@ public class OfferProduct {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private Long productId;
 
+    @Column(nullable = false)
     private Integer ordering;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
     private Offer offer;
 }

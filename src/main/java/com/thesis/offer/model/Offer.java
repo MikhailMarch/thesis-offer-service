@@ -1,9 +1,10 @@
 package com.thesis.offer.model;
 
-import jakarta.persistence.*;
+
 import lombok.*;
 import org.hibernate.annotations.BatchSize;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"id"})
+@Table(name = "offers")
 public class Offer {
 
     @Id
@@ -23,10 +25,11 @@ public class Offer {
     private String title;
 
     @Column(nullable = false)
-    private String order;
+    private Integer ordering;
 
     @BatchSize(size = 10)
     @OneToMany(mappedBy = "offer", fetch = FetchType.LAZY)
+    @OrderBy("ordering")
     @Builder.Default
     private List<OfferProduct> products = new ArrayList<>();
 }

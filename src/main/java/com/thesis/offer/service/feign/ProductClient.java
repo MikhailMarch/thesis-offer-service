@@ -2,6 +2,7 @@ package com.thesis.offer.service.feign;
 
 import com.thesis.offer.dto.OfferProductDto;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -10,5 +11,6 @@ import java.util.List;
              name = "product-client")
 public interface ProductClient {
 
+    @GetMapping("/getProducts")
     List<OfferProductDto> getProducts(@RequestParam("productIds") List<Long> productIds);
 }

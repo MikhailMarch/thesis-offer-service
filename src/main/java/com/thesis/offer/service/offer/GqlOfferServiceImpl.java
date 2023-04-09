@@ -4,6 +4,7 @@ import com.thesis.offer.dto.graphql.Offer;
 import com.thesis.offer.repository.OfferRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,10 +19,19 @@ public class GqlOfferServiceImpl implements GqlOfferService {
     @Override
     public List<Offer> getOffers(Integer page,
                                  Integer size) {
-        var offers = offerRepository.findAllOrderByOrder(PageRequest.of(page, size));
+        var offers = offerRepository.findAll(PageRequest.of(page, size, Sort.by("ordering")));
         return offers.stream()
                 .map(this::makeOffer)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Offer getOffer(Long offerId,
+                          Integer page,
+                          Integer size) {
+        var offer = offerRepository.findById(offerId)
+                .orElseThrow();
+        return makeOffer(offer);
     }
 
     private Offer makeOffer(com.thesis.offer.model.Offer offer) {

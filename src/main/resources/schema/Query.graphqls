@@ -1,0 +1,6 @@
+type Query {
+    getOffers(page: Int! = 0,
+              size: Int! = 10): [Offer!]!
+
+    getOffer(offerId: Int!): Offer!
+}

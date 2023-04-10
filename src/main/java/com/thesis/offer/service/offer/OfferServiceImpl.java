@@ -1,7 +1,7 @@
 package com.thesis.offer.service.offer;
 
-import com.thesis.offer.dto.OfferDto;
-import com.thesis.offer.dto.OfferProductDto;
+import com.thesis.offer.dto.offer.ExtendedOfferDto;
+import com.thesis.offer.dto.product.OfferProductDto;
 import com.thesis.offer.model.Offer;
 import com.thesis.offer.model.OfferProduct;
 import com.thesis.offer.repository.OfferRepository;
@@ -21,8 +21,8 @@ public class OfferServiceImpl implements OfferService {
     private final OfferRepository offerRepository;
     private final ProductClient productClient;
 
-    public List<OfferDto> getOffers(Integer page,
-                                    Integer size) {
+    public List<ExtendedOfferDto> getOffers(Integer page,
+                                            Integer size) {
 
         var offers = offerRepository.findAll(PageRequest.of(page, size, Sort.by("ordering")));
 
@@ -55,9 +55,9 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public OfferDto getOffer(Long offerId,
-                             Integer page,
-                             Integer size) {
+    public ExtendedOfferDto getOffer(Long offerId,
+                                     Integer page,
+                                     Integer size) {
 
         var offer = offerRepository.findById(offerId)
                 .orElseThrow();
@@ -76,8 +76,8 @@ public class OfferServiceImpl implements OfferService {
         return makeOfferDto(offer, products);
     }
 
-    private OfferDto makeOfferDto(Offer offer, List<OfferProductDto> productDtoList) {
-        return OfferDto.builder()
+    private ExtendedOfferDto makeOfferDto(Offer offer, List<OfferProductDto> productDtoList) {
+        return ExtendedOfferDto.builder()
                 .id(offer.getId())
                 .title(offer.getTitle())
                 .productDtoList(productDtoList)

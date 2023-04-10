@@ -1,11 +1,13 @@
 package com.thesis.offer.controller;
 
 import com.thesis.offer.OfferServiceApplicationTests;
-import com.thesis.offer.dto.OfferProductDto;
+import com.thesis.offer.dto.product.OfferProductDto;
 import com.thesis.offer.model.Offer;
 import com.thesis.offer.model.OfferProduct;
+import com.thesis.offer.service.feign.FeedbackClient;
 import com.thesis.offer.service.feign.ProductClient;
 import com.thesis.offer.service.offer.OfferServiceImpl;
+import com.thesis.offer.service.product.ProductServiceImpl;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,11 +20,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 
 @Transactional
@@ -34,8 +38,14 @@ public class ProductOfferControllerTest extends OfferServiceApplicationTests {
     @MockBean
     ProductClient productClient;
 
+    @MockBean
+    FeedbackClient feedbackClient;
+
     @Autowired
     OfferServiceImpl offerService;
+
+    @Autowired
+    ProductServiceImpl productService;
 
     Random random = new Random();
 
@@ -69,6 +79,8 @@ public class ProductOfferControllerTest extends OfferServiceApplicationTests {
                         .sellPrice(1)
                         .build())
                         .collect(Collectors.toList()));
+
+        Mockito.when(feedbackClient.getFeedbacks(any())).thenReturn(List.of());
     }
 
     @AfterEach
@@ -94,6 +106,17 @@ public class ProductOfferControllerTest extends OfferServiceApplicationTests {
 
         MatcherAssert.assertThat(offer.getTitle(), is(extractedOffer.getTitle()));
         MatcherAssert.assertThat(offer.getProducts().size(), is(extractedOffer.getProductDtoList().size()));
+    }
+
+    @Test
+    void testProductController() {
+        txStart();
+
+        var existingProduct = this.offer.getProducts().get(0);
+        var product = productService.getProduct(existingProduct.getProductId());
+
+        MatcherAssert.assertThat(product.getId(), is(existingProduct.getProductId()));
+        MatcherAssert.assertThat(product.getOffer().getTitle(), is(this.offer.getTitle()));
     }
 
     Offer getOffer() {

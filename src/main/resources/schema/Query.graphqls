@@ -3,4 +3,6 @@ type Query {
               size: Int! = 10): [Offer!]!
 
     getOffer(offerId: Int!): Offer!
+
+    getFavorite(userId: Int!): ExtendedProduct
 }

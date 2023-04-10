@@ -10,3 +10,13 @@ type Offer {
 type Product @extends @key(fields: "id") {
     id: Int @external
 }
+
+type ExtendedProduct @extends @key(fields: "id") {
+    id: Int @external
+
+    offer: Offer!
+}
+
+type Feedback @extends @key(fields: "id") {
+    id: Int @external
+}

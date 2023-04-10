@@ -1,6 +1,6 @@
 package com.thesis.offer.controller.rest;
 
-import com.thesis.offer.dto.OfferDto;
+import com.thesis.offer.dto.offer.ExtendedOfferDto;
 import com.thesis.offer.service.offer.OfferService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,15 +17,15 @@ public class OfferController {
     private final OfferService offerService;
 
     @GetMapping
-    public List<OfferDto> getOffers(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-                                    @RequestParam(value = "page", required = false, defaultValue = "20") Integer size) {
+    public List<ExtendedOfferDto> getOffers(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+                                            @RequestParam(value = "page", required = false, defaultValue = "20") Integer size) {
         return offerService.getOffers(page, size);
     }
 
     @GetMapping("/{offerId}")
-    public List<OfferDto> getOffers(@PathVariable("offerId") Long offerId,
-                                    @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-                                    @RequestParam(value = "page", required = false, defaultValue = "20") Integer size) {
+    public List<ExtendedOfferDto> getOffers(@PathVariable("offerId") Long offerId,
+                                            @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+                                            @RequestParam(value = "page", required = false, defaultValue = "20") Integer size) {
         return offerService.getOffers(page, size);
     }
 }

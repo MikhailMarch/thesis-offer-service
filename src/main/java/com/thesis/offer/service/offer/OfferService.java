@@ -1,15 +1,15 @@
 package com.thesis.offer.service.offer;
 
-import com.thesis.offer.dto.OfferDto;
+import com.thesis.offer.dto.offer.ExtendedOfferDto;
 
 import java.util.List;
 
 public interface OfferService {
 
-    List<OfferDto> getOffers(Integer page,
-                             Integer size);
+    List<ExtendedOfferDto> getOffers(Integer page,
+                                     Integer size);
 
-    OfferDto getOffer(Long offerId,
-                      Integer page,
-                      Integer size);
+    ExtendedOfferDto getOffer(Long offerId,
+                              Integer page,
+                              Integer size);
 }

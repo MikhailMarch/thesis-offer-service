@@ -3,6 +3,9 @@ package com.thesis.offer.model;
 import javax.persistence.*;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.sql.Timestamp;
 
 @Data
 @Entity
@@ -16,7 +19,11 @@ public class CustomerProductLike {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long customerId;
+    private Long userId;
 
-    private Long productId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private OfferProduct product;
+
+    @CreationTimestamp
+    private Timestamp dateCreated;
 }

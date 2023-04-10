@@ -3,6 +3,7 @@ package com.thesis.offer.controller.graphql;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsData;
 import com.netflix.graphql.dgs.DgsDataFetchingEnvironment;
+import com.netflix.graphql.dgs.InputArgument;
 import com.thesis.offer.dto.graphql.Offer;
 import com.thesis.offer.dto.graphql.Product;
 import com.thesis.offer.service.dataloader.OfferProductLoader;
@@ -16,7 +17,9 @@ import java.util.concurrent.CompletableFuture;
 public class OfferFeildResolver {
 
     @DgsData(parentType = "Offer")
-    public CompletableFuture<List<Product>> products(DgsDataFetchingEnvironment environment) {
+    public CompletableFuture<List<Product>> products(@InputArgument Integer page,
+                                                     @InputArgument Integer size,
+                                                     DgsDataFetchingEnvironment environment) {
         Offer offer = environment.getSource();
         return environment.<Long, List<Product>>getDataLoader(OfferProductLoader.class)
                 .load(offer.getId());

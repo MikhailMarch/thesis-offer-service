@@ -8,5 +8,5 @@ spring:
     spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
 
 services:
-  product:
-    url: product
+  product: product
+  feedback: feedback

@@ -9,6 +9,9 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"id"})
+@Table(
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"productId", "offerId"})}
+)
 public class OfferProduct {
 
     @Id

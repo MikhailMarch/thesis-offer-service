@@ -13,6 +13,9 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"id"})
+@Table(
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"product", "userId"})}
+)
 public class CustomerProductLike {
 
     @Id
